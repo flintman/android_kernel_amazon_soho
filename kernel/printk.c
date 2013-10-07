@@ -60,6 +60,10 @@ void asmlinkage __attribute__((weak)) early_printk(const char *fmt, ...)
 extern void printascii(char *);
 #endif
 
+#ifdef CONFIG_KERNEL_LOG
+#include <linux/klog.h>
+#endif
+
 /* printk's without a loglevel use this.. */
 #define DEFAULT_MESSAGE_LOGLEVEL CONFIG_DEFAULT_MESSAGE_LOGLEVEL
 
@@ -300,10 +304,11 @@ static inline void boot_delay_msec(void)
 /*
  * Return the number of unread characters in the log buffer.
  */
-static int log_buf_get_len(void)
+int log_buf_get_len(void)
 {
 	return logged_chars;
 }
+EXPORT_SYMBOL(log_buf_get_len);
 
 /*
  * Clears the ring-buffer
@@ -948,6 +953,10 @@ asmlinkage int vprintk(const char *fmt, va_list args)
 
 #ifdef	CONFIG_DEBUG_LL
 	printascii(printk_buf);
+#endif
+
+#ifdef CONFIG_KERNEL_LOG
+	klog_write(printk_buf, printed_len);
 #endif
 
 	p = printk_buf;

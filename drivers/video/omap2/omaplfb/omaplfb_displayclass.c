@@ -1200,7 +1200,7 @@ static OMAPLFB_ERROR OMAPLFBInitIonOmap(OMAPLFB_DEVINFO *psDevInfo,
 	unsigned uiFBDevID = psDevInfo->uiFBDevID;
 	struct sgx_omaplfb_config *psFBPlatConfig = GetFBPlatConfig(uiFBDevID);
 
-#if defined(CONFIG_ION_OMAP)
+#if defined(OMAPRPC_USE_ION)
         gpsIONClient = ion_client_create(omap_ion_device,
                         1 << ION_HEAP_TYPE_CARVEOUT |
                         1 << OMAP_ION_HEAP_TYPE_TILER |

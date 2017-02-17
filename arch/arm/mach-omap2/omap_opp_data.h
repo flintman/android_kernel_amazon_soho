@@ -71,13 +71,12 @@ struct omap_opp_def {
 /*
  * Initialization wrapper used to define an OPP for OMAP variants.
  */
-#define OPP_INITIALIZER(_dev_info, _enabled, _freq, _uv, _opp_name)	\
+#define OPP_INITIALIZER(_dev_info, _enabled, _freq, _uv)	\
 {								\
 	.dev_info	= _dev_info,				\
 	.default_available	= _enabled,			\
 	.freq		= _freq,				\
 	.u_volt		= _uv,					\
-	.opp_name	= _opp_name				\
 }
 
 /*

@@ -148,7 +148,6 @@ static struct panel_board_data bowser_dsi_panel = {
 };
 #endif
 
-
 #if defined(CONFIG_PANEL_TC358765)
 static struct omap_dss_device bowser_lcd_device = {
 	.name			= "lcd",
@@ -201,7 +200,7 @@ static struct omap_dss_device bowser_lcd_device = {
 		},
 	},
 #else // For bowser LG panel
-#error Need .panel timings, width & height_in_um
+//#error Need .panel timings, width & height_in_um
 	.clocks = {
 		.dispc = {
 			 .channel = {
@@ -440,6 +439,7 @@ static struct omap_dss_device bowser_lcd_device = {
 	.platform_disable = NULL,
 };
 
+#endif
 static struct nt51012_pmic_regs nt51012_pmic_enable_evt1[] = {
 	NT51012_REGS(0x10, 0x01, 0x00, 0x00), /* reg[0x10] = 0x01 */
 	NT51012_REGS(0xFF, 0xFF, 0xFF, 0xFF), /* Finish array */
@@ -468,7 +468,6 @@ static struct i2c_board_info __initdata nt51012_pmic_i2c = {
 	I2C_BOARD_INFO("nt51012_pmic", 0x4F),
 	.platform_data = &nt51012_pmic_data,
 };
-#endif
 
 #ifdef CONFIG_OMAP4_DSS_HDMI
 static struct omap_dss_hdmi_data omap5panda_hdmi_data = {

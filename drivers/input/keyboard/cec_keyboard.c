@@ -210,11 +210,14 @@ static int on_hdmi_connect(unsigned char status)
 		r = cec_keyboard_register();
 		if (r)
 			return r;
-
+#ifdef CONFIG_OMAP5_DSS_HDMI
 		/*Enable UI call backs from the CEC driver*/
 		r = cec_enable_ui_event(1);
+#endif
 	} else {
+#ifdef  CONFIG_OMAP5_DSS_HDMI
 		r = cec_enable_ui_event(0);
+#endif
 		cec_keyboard_unregister();
 	}
 

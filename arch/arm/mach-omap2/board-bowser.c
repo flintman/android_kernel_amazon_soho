@@ -473,12 +473,12 @@ static void bowser_platform_init(void)
 #ifdef CONFIG_SND_SOC_MAX98090
 	max98090_pdata.irq = gpio_to_irq(GPIO_CODEC_IRQ);
 #endif
-
+#if defined(CONFIG_SND_SOC_MAX97236)
 	/*
 	 * Drive MSECURE high for TWL6030/6032 write access.
 	 */
 	omap_mux_init_gpio(MAX97236_GPIO_IRQ, OMAP_PIN_INPUT_PULLUP);
-
+#endif
 	omap_mux_init_signal("fref_clk3_req.gpio_wk30", OMAP_PIN_OUTPUT);
 	gpio_request(30, "msecure");
 	gpio_direction_output(30, 1);

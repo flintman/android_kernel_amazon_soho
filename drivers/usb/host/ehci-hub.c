@@ -33,6 +33,9 @@
 #define EHCI_METRICS_STR_LEN 128
 #endif
 
+static int count_resume_error;
+static int phy_failed_exit_low_power_mode;
+
 #define	PORT_WAKE_BITS	(PORT_WKOC_E|PORT_WKDISC_E|PORT_WKCONN_E)
 
 #ifdef	CONFIG_PM
@@ -679,6 +682,8 @@ static int ehci_hub_control (
 	unsigned long	flags;
 	int		retval = 0;
 	unsigned	selector;
+	int 		port_resume_error= 0;
+	int retval_resume_error = 0;
 
 #ifdef CONFIG_AMAZON_METRICS_LOG
 	char buff[EHCI_METRICS_STR_LEN];
@@ -856,10 +861,14 @@ static int ehci_hub_control (
 				clear_bit(wIndex, &ehci->resuming_ports);
 				retval = handshake(ehci, status_reg,
 					   PORT_RESUME, 0, 2000 /* 2msec */);
-				if (retval != 0) {
-					ehci_err(ehci,
-						"port %d resume error %d\n",
-						wIndex + 1, retval);
+				if ((retval != 0)) {
+					printk("port %d resume error %d and count %d\n", wIndex + 1, retval,count_resume_error++);
+						dbg_port (ehci, "GetStatus", wIndex + 1, ehci_readl(ehci, status_reg));
+
+						port_resume_error =1;
+						retval_resume_error = retval;
+
+					/* Reset the link if resume fails */
 					goto error;
 				}
 				temp &= ~(PORT_SUSPEND|PORT_RESUME|(3<<10));

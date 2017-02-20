@@ -201,6 +201,22 @@ static struct omap_dss_device bowser_lcd_device = {
 	},
 #else // For bowser LG panel
 //#error Need .panel timings, width & height_in_um
+	.panel = {
+		.timings = {
+		.x_res        = 1280,
+		.y_res        = 800,
+		.pixel_clock    = 76266,
+		.hfp        = 48,
+		.hsw        = 32,
+		.hbp        = 80,
+		.vfp        = 3,
+		.vsw        = 6,
+		.vbp        = 14,
+		},
+		.width_in_um		= 217000,
+		.height_in_um	= 136000,
+		.dsi_mode = OMAP_DSS_DSI_VIDEO_MODE,
+	},
 	.clocks = {
 		.dispc = {
 			 .channel = {
